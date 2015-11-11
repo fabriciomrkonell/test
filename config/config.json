@@ -1,7 +1,13 @@
 {
-  "service": "Gmail",
-  "auth": {
-      "user": "",
-      "pass": ""
-  }
+	"sendgrid": {
+		"user": "",
+	  "pass": ""
+	},
+	"nodemailer": {
+	  "service": "Gmail",
+	  "auth": {
+	    "user": "",
+	    "pass": ""
+	  }
+	}
 }
