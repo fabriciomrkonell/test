@@ -2,7 +2,11 @@
 
 var service = require('./service'),
     nodemailer = require('nodemailer'),
-    configSMTP = require('./../config/config.json');
+    configSMTP = require('./../config/config.json'),
+    sendgrid = require('sendgrid')(configSMTP.sendgrid.user, configSMTP.sendgrid.pass),
+    dotenv = require('dotenv');
+
+  dotenv.load();
 
 function validEmail(email) {
   var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -77,20 +81,20 @@ exports.processItens = function(itens, email) {
 
 };
 
-exports.sendEmail = function(email, text) {
+exports.sendEmail = function(_email, _text) {
 
-  console.log(email);
+  var smtpTransport = nodemailer.createTransport(configSMTP.nodemailer);
 
-  var transporter = nodemailer.createTransport('SMTP', configSMTP);
-  transporter.sendMail({
-    to: configSMTP.auth.user,
-    from: email,
-    subject: 'Obrigado por se candidatar',
-    html: 'Obrigado por se candidatar, assim que tivermos uma vaga disponível para programador ' + (text === undefined ? '' : (text + ' ')) + 'entraremos em contato.'
-  }, function(error, info){
-    if(error){
-      return console.log(error);
+  smtpTransport.sendMail({
+    from: _email,
+    to: _email,
+    subject:  'Obrigado por se candidatar',
+    html: 'Obrigado por se candidatar, assim que tivermos uma vaga disponível para programador ' + (_text === undefined ? '' : (_text + ' ')) + 'entraremos em contato.'
+  }, function(error, response) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Message sent!");
     }
-    console.log('Email sent!');
   });
 };

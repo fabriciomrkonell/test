@@ -9,7 +9,7 @@ Use npm to install:
 Configuration
 -----
 
-Configure your email and password on file:
+Configure your Email/Password Gmail and API SendGrid on file:
 
     config/config.json
 
